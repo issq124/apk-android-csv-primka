@@ -30,12 +30,12 @@ jobs:
       - name: Accept licenses
         run: yes | sdkmanager --licenses
 
-      # Novi način za Gradle + cache
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
-
+      # Pokreni Gradle bez wrappera
       - name: Build debug APK
-        run: ./gradlew :app:assembleDebug
+        uses: gradle/gradle-build-action@v3
+        with:
+          gradle-version: '8.7'
+          arguments: ':app:assembleDebug'
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
