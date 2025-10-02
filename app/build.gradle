@@ -1,0 +1,54 @@
+plugins {
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+}
+
+android {
+    namespace = "com.metrax.primkaapp"
+    compileSdk = 34
+
+    defaultConfig {
+        applicationId = "com.metrax.primkaapp"
+        minSdk = 24
+        targetSdk = 34
+        versionCode = 1
+        versionName = "1.0"
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+        }
+        debug {
+            isMinifyEnabled = false
+        }
+    }
+
+    buildFeatures { compose = true }
+    composeOptions { kotlinCompilerExtensionVersion = "1.5.14" }
+    packaging {
+        resources.excludes += "/META-INF/{AL2.0,LGPL2.1,DEPENDENCIES,NOTICE,LICENSE,LICENSE.txt,license/*}"
+    }
+}
+
+dependencies {
+    val composeBom = platform("androidx.compose:compose-bom:2024.06.00")
+    implementation(composeBom)
+    implementation("androidx.activity:activity-compose:1.9.2")
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.material3:material3:1.3.0")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+
+    // CSV parsing
+    implementation("com.opencsv:opencsv:5.9")
+
+    // XLSX parsing (Apache POI - ooxml only)
+    implementation("org.apache.poi:poi-ooxml:5.2.5")
+    implementation("org.apache.xmlbeans:xmlbeans:5.2.1")
+    implementation("org.apache.commons:commons-compress:1.26.2")
+    implementation("org.apache.commons:commons-collections4:4.4")
+
+    // Kotlin stdlib (implicit) - included by plugin
+}
