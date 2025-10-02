@@ -18,26 +18,24 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      # Postavi Android SDK bez paketa
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      # Instaliraj pakete POSEBNO da se ne spajaju u jedan string
       - name: Install platform android-34
         run: sdkmanager "platforms;android-34"
 
       - name: Install build-tools 34.0.0
         run: sdkmanager "build-tools;34.0.0"
 
-      # (opcionalno, ali korisno) Prihvati licence
       - name: Accept licenses
         run: yes | sdkmanager --licenses
 
-      - name: Gradle build (assembleDebug)
-        uses: gradle/gradle-build-action@v3
-        with:
-          gradle-version: '8.7'
-          arguments: ':app:assembleDebug'
+      # Novi način za Gradle + cache
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Build debug APK
+        run: ./gradlew :app:assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
